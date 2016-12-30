@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"  ng-app='NarrowItDownApp'>
+  <head>
+    <title>Narrow Down Your Menu Choice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
+  </head>
+<body>
+   <div class="container" ng-controller='NarrowItDownController as list1'>
+    <h1>Narrow Down Your Chinese Menu Choice</h1>
+    <div id="div_general" class="col-md-12 form-group">
+      <input id="imp_search" type="text"ng-model="searchTerm"  placeholder="search term" class="form-control">
+      <button id="but_search" class="btn btn-primary" ng-click="list1.getMatchedMenuItems(searchTerm);">{{list1.buttonSearchText}}</button>
+      <div id="list_found_items">
+        <found-items  my-list="list1"></found-items>
+    </div>
+  </div>
+</body>
+</html>
+
+<!-//Utilizar link para pasar el metodo--->
