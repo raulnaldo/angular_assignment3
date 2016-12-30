@@ -12,7 +12,8 @@ function FoundItemsDirective() {
   var ddo = {
     templateUrl: 'foundItems.html',
     scope: {
-      list: '<myList'
+      list: '<myList',
+      onRemove: '&method'
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'myCtroler',
@@ -45,7 +46,7 @@ function NarrowItDownController(MenuSearchService) {
   NarrowItDown.buttonSearchText='Narrow It Down For Meeee!'
 
   //BUSQUEDA DE MENUS
-  NarrowItDown.getMatchedMenuItems = function(searchTerm){    
+  NarrowItDown.getMatchedMenuItems = function(searchTerm){
     if ((searchTerm==null) || (searchTerm=='')) {
       searchTerm='';
       NarrowItDown.foundItems=null;
@@ -58,6 +59,7 @@ function NarrowItDownController(MenuSearchService) {
 
   //ELIMINACION DE MENUS
   NarrowItDown.removeItem = function(itemIndex){
+    console.log('this is:',this,', Id:',itemIndex);
     MenuSearchService.removeItem(itemIndex);
   };
 }
