@@ -1,9 +1,9 @@
 <ol class="list-group">
-  <div ng-repeat="item in myCtroler.list.foundItems" class="list-group-item">
+  <div ng-repeat="item in myCtroler.list.foundItems" class="listado list-group-item">
     <a href="#" class="list-group-item">
       <button class="btn-danger" ng-click="myCtroler.onRemove({index:$index});">Don't want this one!</button>
       {{item.name}},{{item.short_name}},{{item.description}}
     </a>
   </div>
-  <div class="label label-danger" ng-if="myCtroler.someThingFound()">Nothing found</div>
+  <div class="error label label-danger">Nothing found</div>
 </ol>

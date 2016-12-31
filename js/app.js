@@ -17,23 +17,53 @@ function FoundItemsDirective() {
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'myCtroler',
-    bindToController: true
+    bindToController: true,
+    link: FoundItemsDirectiveLink
   };
   return ddo;
 }
+//LINK FUNCTION TO WATCH CHANGES IN THE FOUND ITEMS LIST
+function FoundItemsDirectiveLink(scope, element, attrs, controller) {
+
+  scope.$watch('myCtroler.list.triedToSearch',function (newValue,oldValue){
+    if (newValue){
+      displayNotFoundMessage();
+    }
+  });
+
+  scope.$watch('myCtroler.someThingFound()',function (newValue,oldValue){
+    if (newValue==true){
+      removeNotFoundMessage();
+    }
+    else{
+      if (scope.myCtroler.list.triedToSearch){
+        displayNotFoundMessage();
+      }
+    }
+  });
+
+  function displayNotFoundMessage()
+  {
+    var warningElem = element.find("div.error");
+    warningElem.slideDown(900);
+  }
+  function removeNotFoundMessage(){
+    var warningElem = element.find("div.error");
+    warningElem.slideUp(900);
+  }
+}
+
 
 //DIRECTIVE CONTROLLER
 function FoundItemsDirectiveController() {
   var myCtroler = this;
   myCtroler.someThingFound= function () {
-    if (!myCtroler.list.triedToSearch){
+    if (typeof myCtroler.list.foundItems == 'undefined' || myCtroler.list.foundItems == null)
+    {
       return false;
     }
-    if (myCtroler.list.foundItems==null){
-        return true;
-    }
-    else{
-      return (myCtroler.list.foundItems.length == 0);
+    else {
+      return (myCtroler.list.foundItems.length > 0);
     }
   };
 }
@@ -42,11 +72,12 @@ function FoundItemsDirectiveController() {
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
   var NarrowItDown = this;
-  NarrowItDown.triedToSearch=false;
   NarrowItDown.buttonSearchText='Narrow It Down For Meeee!'
+  NarrowItDown.triedToSearch=false;
 
   //BUSQUEDA DE MENUS
   NarrowItDown.getMatchedMenuItems = function(searchTerm){
+    NarrowItDown.triedToSearch=true;
     if ((searchTerm==null) || (searchTerm=='')) {
       searchTerm='';
       NarrowItDown.foundItems=null;
@@ -54,7 +85,6 @@ function NarrowItDownController(MenuSearchService) {
     else{
       NarrowItDown.foundItems= MenuSearchService.getMatchedMenuItems(searchTerm);
     }
-    NarrowItDown.triedToSearch=true;
   };
 
   //ELIMINACION DE MENUS

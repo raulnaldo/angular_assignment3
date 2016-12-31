@@ -61,3 +61,6 @@ margin-left: 5px;
 #list_found_items{
     margin-top: 10px;
 }
+.error{
+  display: none;
+}
